@@ -15,7 +15,7 @@ public class Main {
         taskManager.print();
         System.out.println("------------------------------");
 
-        Task task2 = (Task) context.getBean("task");
+        Task task2 = (Task) context.getBean("main-task");
         System.out.println(task2);
     }
 }

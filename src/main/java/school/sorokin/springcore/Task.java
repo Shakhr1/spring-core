@@ -2,7 +2,7 @@ package school.sorokin.springcore;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("main-task")
 public class Task {
     private final String name;
     private final int taskId;
