@@ -2,8 +2,6 @@ package school.sorokin.springcore;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.ObjectInputFilter;
-
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
