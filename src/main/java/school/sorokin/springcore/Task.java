@@ -17,6 +17,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task's name -> " + name + ", task ID -> " + taskId;
+        return "Task's name is -> " + name + ", task ID -> " + taskId;
     }
 }

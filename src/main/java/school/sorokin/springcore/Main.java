@@ -10,5 +10,7 @@ public class Main {
                 new AnnotationConfigApplicationContext("school.sorokin.springcore");
         Task task = context.getBean(Task.class);
         System.out.println(task);
+        TaskManager taskManager = context.getBean(TaskManager.class);
+        taskManager.print();
     }
 }
