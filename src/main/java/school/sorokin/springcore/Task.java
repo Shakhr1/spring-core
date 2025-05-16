@@ -1,10 +1,12 @@
 package school.sorokin.springcore;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("main-task")
-@Scope("prototype")
+//@Scope("prototype")
 public class Task {
     private final String name;
     private final int taskId;
@@ -13,8 +15,19 @@ public class Task {
         this.name = "Task";
         this.taskId = 1;
     }
+
     public String getName() {
         return name;
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("Post-construct task: " + name);
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        System.out.println("Pre-destroy task: " + name);
     }
 
     @Override
