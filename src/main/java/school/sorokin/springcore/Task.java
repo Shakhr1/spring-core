@@ -1,8 +1,10 @@
 package school.sorokin.springcore;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("main-task")
+@Scope("prototype")
 public class Task {
     private final String name;
     private final int taskId;
