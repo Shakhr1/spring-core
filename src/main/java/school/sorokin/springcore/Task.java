@@ -2,7 +2,6 @@ package school.sorokin.springcore;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("main-task")
@@ -14,10 +13,6 @@ public class Task {
     public Task () {
         this.name = "Task";
         this.taskId = 1;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @PostConstruct
