@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component("main-task")
-//@Scope("prototype")
 public class Task {
     private final String name;
     private final int taskId;
