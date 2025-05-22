@@ -1,4 +1,4 @@
-package school.sorokin.springcore.firstModule;
+package school.sorokin.springcore.first_module;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;

@@ -1,4 +1,4 @@
-package school.sorokin.springcore.firstModule;
+package school.sorokin.springcore.first_module;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
