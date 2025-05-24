@@ -1,47 +1,62 @@
 package school.sorokin.springcore.first_module.homework.service;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
+import school.sorokin.springcore.first_module.homework.TransactionHelper;
 import school.sorokin.springcore.first_module.homework.model.User;
 
 import java.util.*;
 
 @Service
 public class UserService {
-    private final Map<Integer, User> userMap;
-    private final Set<String> takenLogins;
-    private int idCounter;
+    private final TransactionHelper transactionHelper;
+    private final SessionFactory sessionFactory;
     private final AccountService accountService;
 
-    public UserService(AccountService accountService) {
+    public UserService(AccountService accountService,TransactionHelper transactionHelper,
+                       SessionFactory sessionFactory) {
         this.accountService = accountService;
-        this.userMap = new HashMap<>();
-        this.takenLogins = new HashSet<>();
-        this.idCounter = 0;
+        this.transactionHelper = transactionHelper;
+        this.sessionFactory = sessionFactory;
     }
 
     public User createUser(String login) {
-        if (takenLogins.contains(login)) {
-            throw new IllegalArgumentException("User already exists with login=%s"
-                    .formatted(login));
-        }
+        if (login == null || login.isEmpty())
+            throw new IllegalArgumentException("Login is wrong.");
 
-        takenLogins.add(login);
-        idCounter++;
-        var newUser = new User(idCounter, login, new ArrayList<>());
+        return transactionHelper.executeInTransaction(() -> {
+            Session session = sessionFactory.getCurrentSession();
+            User userExist = session
+                    .createQuery("SELECT u FROM User u WHERE u.login = :login", User.class)
+                    .setParameter("login", login)
+                    .getSingleResultOrNull();
 
-        var newAccount = accountService.createAccount(newUser);
-        newUser.accountList().add(newAccount);
+            if (userExist != null) {
+                throw new IllegalArgumentException("User with login " + login + " already exists");
+            }
+            User user = new User(login, new ArrayList<>());
 
-        userMap.put(newUser.id(), newUser);
-
-        return newUser;
+            session.persist(user);
+            accountService.createAccount(user);
+            return user;
+        });
     }
 
     public Optional<User> findUserById(int id) {
-        return Optional.ofNullable(userMap.get(id));
+        return Optional.ofNullable(transactionHelper.executeInTransaction(
+                () -> sessionFactory.getCurrentSession().get(User.class, id)));
     }
 
     public List<User> getAllUsers() {
-        return userMap.values().stream().toList();
+        return transactionHelper.executeInTransaction(() -> {
+            Session session = sessionFactory.getCurrentSession();
+            return session
+                    .createQuery("""
+                                SELECT s FROM User s
+                                LEFT JOIN FETCH s.accounts
+                            """, User.class)
+                    .list();
+        });
     }
 }
