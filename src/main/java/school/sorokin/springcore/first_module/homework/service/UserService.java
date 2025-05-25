@@ -54,7 +54,7 @@ public class UserService {
             return session
                     .createQuery("""
                                 SELECT s FROM User s
-                                LEFT JOIN FETCH s.accounts
+                                LEFT JOIN FETCH s.accountList
                             """, User.class)
                     .list();
         });

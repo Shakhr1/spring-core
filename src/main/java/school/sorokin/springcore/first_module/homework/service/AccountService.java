@@ -86,7 +86,7 @@ public class AccountService {
 
             accountToDeposit.setMoneyAmount(accountToDeposit.getMoneyAmount() + accountToRemove.getMoneyAmount());
 
-            sessionFactory.getCurrentSession().remove(accountToDeposit);
+            sessionFactory.getCurrentSession().remove(accountToRemove);
             return accountToRemove;
         });
     }
