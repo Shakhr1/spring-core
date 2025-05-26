@@ -33,9 +33,9 @@ public class CreateAccountProcessor implements OperationCommandProcessor {
                 .orElseThrow(() -> new IllegalArgumentException("No such user with id=%s"
                         .formatted(userId)));
         var account = accountService.createAccount(user);
-        user.accountList().add(account);
+        user.getAccountList().add(account);
 
-        System.out.printf("New account created with Id: %s for user: %s%n", account.getId(), user.login());
+        System.out.printf("New account created with Id: %s for user: %s%n", account.getId(), user.getLogin());
     }
 
     @Override
